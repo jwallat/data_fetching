@@ -44,4 +44,21 @@ class ItemModel {
         score = parsedJson["score"],
         title = parsedJson["title"],
         descendants = parsedJson["descendants"];
+
+  Map<String, dynamic> toMapForDb() {
+    return <String, dynamic>{
+      "id": id,
+      "type": type,
+      "by": by,
+      "text": text,
+      "parent": parent,
+      "url": url,
+      "score": score,
+      "title": title,
+      "descendants": descendants,
+      "dead": dead ? 1 : 0,
+      "deleted": deleted ? 1 : 0,
+      "kids": jsonEncode(kids),
+    };
+  }
 }
