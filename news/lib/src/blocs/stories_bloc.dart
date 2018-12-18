@@ -5,6 +5,7 @@ import "../resources/repository.dart";
 class StoriesBloc {
   final _repository = Repository();
   final _topIds = PublishSubject<List<int>>();
+  final _items = BehaviorSubject<int>();
 
   // Getter to the stream
   Observable<List<int>> get topIds => _topIds.stream;
@@ -16,8 +17,9 @@ class StoriesBloc {
 
   _itemsTransformer() {
     return ScanStreamTransformer(
-      () {
-
+      (Map<int, Future<ItemModel>> cache, int id, _) {
+        cache[id] = _repository.fetchItem(id);
+        return cache;
       },
       <int, Future<ItemModel>>{},
     );
